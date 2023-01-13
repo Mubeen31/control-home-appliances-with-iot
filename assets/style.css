@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #0e1012;
+  margin: 0;
+}
+
+.title_background {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #21272c;
+  padding: 5px;
+}
+
+.image {
+  height: 25px;
+}
+
+.title_text {
+ color: white;
+ font-weight: bold;
+ font-size: 17;
+}
+
+.title_row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 5px;
+}
+
+.light {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: #21272c;
+  margin-top: 20px;
+  padding: 30px;
+  column-gap: 30px;
+  row-gap: 20px;
+}
+
+.light_power_button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.temp_value_column {
+  display: flex;
+  flex-direction: column;
+}
+
+.blink_column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.overlap_column {
+  display: flex;
+  flex-direction: column;
+}
+
+.temp_value_row {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+}
+
+.heater_margin_column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.heater_column {
+  display: flex;
+  flex-direction: column;
+}
