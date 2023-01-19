@@ -21,10 +21,10 @@ DHT dht(DHTPIN, DHTTYPE);
 #define WIFI_PASSWORD "QQYYT4AT"
 
 // Insert Firebase project API Key
-#define API_KEY ""
+#define API_KEY "AIzaSyDJCuauXh0jJqbBMgc5u3qr0CKanP49rBU"
 
 // Insert RTDB URLefine the RTDB URL */
-#define DATABASE_URL "" 
+#define DATABASE_URL "iot-node-mcu-a3335-default-rtdb.firebaseio.com" 
 
 //Define Firebase Data object
 FirebaseData fbdo;
@@ -42,11 +42,13 @@ void setup() {
   pinMode(D0,OUTPUT);
   pinMode(D1,OUTPUT);
   pinMode(DHTPIN, INPUT);
+  digitalWrite(D0,HIGH);
+  digitalWrite(D1,HIGH);  
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
-    delay(10000);
+    delay(3000);
   }
   Serial.println();
   Serial.print("Connected with IP: ");
@@ -117,5 +119,5 @@ void loop() {
       Serial.println("REASON: " + fbdo.errorReason());
     }    
   }
-  delay(10000);
+  delay(3000);
 }
