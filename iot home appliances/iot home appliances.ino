@@ -21,10 +21,10 @@ DHT dht(DHTPIN, DHTTYPE);
 #define WIFI_PASSWORD "QQYYT4AT"
 
 // Insert Firebase project API Key
-#define API_KEY "AIzaSyDJCuauXh0jJqbBMgc5u3qr0CKanP49rBU"
+#define API_KEY ""
 
 // Insert RTDB URLefine the RTDB URL */
-#define DATABASE_URL "iot-node-mcu-a3335-default-rtdb.firebaseio.com/" 
+#define DATABASE_URL "" 
 
 //Define Firebase Data object
 FirebaseData fbdo;
