@@ -4,6 +4,11 @@ from dash import dcc
 from dash.dependencies import Output, Input
 import dash_daq as daq
 import dash_bootstrap_components as dbc
+import pyrebase
+from data import config
+
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
 
 metaTags = [
     {'name': 'viewport', 'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minium-scale=0.5'}]
@@ -14,7 +19,7 @@ server = app.server
 app.layout = html.Div([
 
     dcc.Interval(id='blink_image',
-                 interval=1 * 11000,
+                 interval=1 * 3000,
                  n_intervals=0),
 
     html.Div([
@@ -78,10 +83,12 @@ def update_value(light):
     light_on = 'Light is on'
     light_off = 'Light is off'
     if light == True:
+        db.update({"L1": "0"})
         return [
             html.Div(light_on, style={'color': 'white'})
         ]
     elif light == False:
+        db.update({"L1": "1"})
         return [
             html.Div(light_off, style={'color': 'white'})
         ]
@@ -113,16 +120,17 @@ def update_value(light, n_intervals):
 
 @app.callback(Output('power_button_two', 'children'),
               [Input('heater_button', 'on')])
-def update_value(light):
+def update_value(heater):
     light_on = 'Heater is on'
     light_off = 'Heater is off'
-    temp = float(20.0)
 
-    if light == True:
+    if heater == True:
+        db.update({"L2": "0"})
         return [
             html.Div(light_on, style={'color': 'white'})
         ]
-    elif light == False:
+    elif heater == False:
+        db.update({"L2": "1"})
         return [
             html.Div(light_off, style={'color': 'white'})
         ]
@@ -131,8 +139,8 @@ def update_value(light):
 @app.callback(Output('heater_image', 'children'),
               [Input('heater_button', 'on')],
               [Input('blink_image', 'n_intervals')])
-def update_value(light, n_intervals):
-    if light == True:
+def update_value(heater, n_intervals):
+    if heater == True:
         return [
             html.Img(src=app.get_asset_url('heater.png')),
         ]
@@ -143,8 +151,8 @@ def update_value(light, n_intervals):
 @app.callback(Output('heater_image_dark', 'children'),
               [Input('heater_button', 'on')],
               [Input('blink_image', 'n_intervals')])
-def update_value(light, n_intervals):
-    if light == True:
+def update_value(heater, n_intervals):
+    if heater == True:
         return None
     else:
         return [
@@ -155,40 +163,42 @@ def update_value(light, n_intervals):
 @app.callback(Output('room_temp', 'children'),
               [Input('heater_button', 'on')],
               [Input('blink_image', 'n_intervals')])
-def update_value(light, n_intervals):
-    temp = float(18.0)
+def update_value(heater, n_intervals):
+    temp_value = db.child('DHT').get('Temperature')
+    for item in temp_value.each():
+        temp = item.val()
 
-    if light == True and temp <= 18.0:
+    if heater == True and temp <= 18.0:
         return [
-            html.Div('{0:.1f}°C'.format(temp),
+            html.Div('{0:.2f} °C'.format(temp),
                      style={'color': '#bfbfbf',
                             'fontWeight': 'bold',
                             'fontSize': '20px',
                             'margin-top': '-5px'
                             })
         ]
-    elif light == True and temp >= 18.1:
+    elif heater == True and temp >= 18.1:
         return [
 
-            html.Div('{0:.1f}°C'.format(temp),
+            html.Div('{0:.2f} °C'.format(temp),
                      style={'color': '#DE3163',
                             'fontWeight': 'bold',
                             'fontSize': '20px',
                             'margin-top': '-5px'})
         ]
-    elif light == False and temp <= 18.0:
+    elif heater == False and temp <= 18.0:
         return [
 
-            html.Div('{0:.1f}°C'.format(temp),
+            html.Div('{0:.2f} °C'.format(temp),
                      style={'color': '#bfbfbf',
                             'fontWeight': 'bold',
                             'fontSize': '20px',
                             'margin-top': '-5px'
                             })
         ]
-    elif light == False and temp >= 18.1:
+    elif heater == False and temp >= 18.1:
         return [
-            html.Div('{0:.1f}°C'.format(temp),
+            html.Div('{0:.2f} °C'.format(temp),
                      style={'color': '#DE3163',
                             'fontWeight': 'bold',
                             'fontSize': '20px',
