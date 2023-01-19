@@ -31,24 +31,22 @@ app.layout = html.Div([
         html.Div([
 
             html.Div([
+                dbc.Spinner(html.Div(id='light_image')),
+                html.Div(id='light_image_dark'),
                 html.Div([
-                    dbc.Spinner(html.Div(id='light_image')),
-                    html.Div(id='light_image_dark'),
-                    html.Div([
-                        daq.PowerButton(id='light_button',
-                                        on=False,
-                                        color='#FF5E5E',
-                                        size=40),
-                        html.Div(id='power_button_one'),
-                    ], className='light_power_button')
-                ], className='blink_column'),
+                    daq.PowerButton(id='light_button',
+                                    on=False,
+                                    color='#FF5E5E',
+                                    size=40),
+                    html.Div(id='power_button_one'),
+                ], className='light_power_button')
+            ], className='blink_column'),
 
-                html.Div([
-                    html.Div('Room Temperature', style={'color': '#21272c'}),
-                    html.Div(id='room_temp1'),
-                ], className='heater_margin_column')
-            ], className='heater_column'),
+        ], className='light twelve columns')
+    ], className='row'),
 
+    html.Div([
+        html.Div([
             html.Div([
                 html.Div([
                     dbc.Spinner(id='heater_image'),
@@ -191,51 +189,6 @@ def update_value(light, n_intervals):
         return [
             html.Div('{0:.1f}°C'.format(temp),
                      style={'color': '#DE3163',
-                            'fontWeight': 'bold',
-                            'fontSize': '20px',
-                            'margin-top': '-5px'
-                            })
-        ]
-
-
-@app.callback(Output('room_temp1', 'children'),
-              [Input('heater_button', 'on')])
-def update_value(light):
-    temp = float(18.1)
-
-    if light == True and temp <= 18.0:
-        return [
-            html.Div('{0:.1f}°C'.format(temp),
-                     style={'color': '#21272c',
-                            'fontWeight': 'bold',
-                            'fontSize': '20px',
-                            'margin-top': '-5px'
-                            })
-        ]
-    elif light == True and temp >= 18.1:
-        return [
-
-            html.Div('{0:.1f}°C'.format(temp),
-                     style={'color': '#21272c',
-                            'fontWeight': 'bold',
-                            'fontSize': '20px',
-                            'margin-top': '-5px'
-                            })
-        ]
-    elif light == False and temp <= 18.0:
-        return [
-
-            html.Div('{0:.1f}°C'.format(temp),
-                     style={'color': '#21272c',
-                            'fontWeight': 'bold',
-                            'fontSize': '20px',
-                            'margin-top': '-5px'
-                            })
-        ]
-    elif light == False and temp >= 18.1:
-        return [
-            html.Div('{0:.1f}°C'.format(temp),
-                     style={'color': '#21272c',
                             'fontWeight': 'bold',
                             'fontSize': '20px',
                             'margin-top': '-5px'
